@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Wishlist{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='wishlist.css') }}">
+{% endblock %}
+{% block content %}
+<div class="container mt-4 wishlist-container">
+    <a href="/create_wantlist"><button class="create-wishlist-btn">Create wishlist</button></a>
+    <div class="favorites-container">
+        <h2>Favorited Listings</h2>
+        <div class="row row-cols-1 row-cols-md-5 g-4 favorite-listings" id="favoritesContainer">
+            {% if favorited_listings %}
+                {% for listing_id, listing in favorited_listings.items() %}
+                <div class="col" data-name="{{ listing.title | lower }}">
+                    <div class="card listing-card" data-id="{{ listing_id }}">
+                        <div class="user-info">
+                            <i class="fas fa-user-circle"></i> {{ listing.owner }}
+                        </div>
+                        <img src="{{ listing.photo }}" class="card-img-top listing-image" alt="{{ listing.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ listing.title }}</h5>
+                            <!-- Apply word limit to description -->
+                            <p class="card-text description">{{ listing.description }}</p>
+                        </div>
+                        <!-- Favorite Icon Button -->
+                        <div class="favorite-btn">
+                            <i class="material-icons favorite-icon" style="font-size:36px; color:red;" onclick="removeFavorite('{{ listing_id }}')">favorite</i>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No items in your wishlist.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+function removeFavorite(listingId) {
+    // Send an AJAX request to remove the item from favorites
+    fetch(`/favorite/${listingId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ action: 'remove' })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Reload the page or update the UI dynamically
+            location.reload();
+        } else {
+            alert('Failed to remove item from favorites.');
+        }
+    });
+}
+</script>
+{% endblock %}

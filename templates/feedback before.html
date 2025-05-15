@@ -1,6 +1,10 @@
 {% extends "before_base.html" %}
 {% block title %}NeighbourlyNest Singapore | Feedback {% endblock %}
 
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='feedback.css') }}">
+{% endblock %}
+
 {% block content %}
 <img src="\static\img\feedback bg.png" class="feedbackBgElement">
     <form id="feedbackform" onsubmit="showAlert(event)">

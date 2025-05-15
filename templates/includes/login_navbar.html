@@ -5,87 +5,78 @@
             <img src="../../static/img/logo.png" alt="NeighbourlyNest" class="logo">
         </a>
         <ul class="nav-links">
-            <li><a data-translate href="/borrow">Borrow</a></li>
-            <li><a data-translate href="/free">Free</a></li>
-            <li><a data-translate href="/locate">Locate Bins</a></li>
-            <li><a data-translate href="/feedback">Feedback</a></li>
+            <li><a href="/borrow">Borrow</a></li>
+            <li><a href="/free">Free</a></li>
+            <li><a href="/locate">Locate Bins</a></li>
+            <li><a href="/feedback">Feedback</a></li>
         </ul>
-        
-        <div class="user-section" onclick="toggleMenu()">
-            <span class="material-symbols-outlined" id="account_circle">
-                account_circle
-            </span>
+
+        <div class="user-actions">
+            <div class="user-section" onclick="toggleMenu()">
+                <span class="material-symbols-outlined" id="account_circle">
+                    account_circle
+                </span>
+                
+                <span class="username">Hello, {{ username }}</span>
+                
+                <span class="material-symbols-outlined" id="arrow_drop_down">
+                    arrow_drop_down
+                </span>
+            </div>
             
-            <span class="username">Hello, Hans</span>
-            
-            <span class="material-symbols-outlined" id="arrow_drop_down">
-                arrow_drop_down
-            </span>
-        </div>
-            
-            <span class="material-symbols-outlined" id="notifications">
+            <span class="material-symbols-outlined notification-icon" id="notifications">
                 notifications
             </span>
             
             <a href="#" id="chat-link">
-                <span class="material-symbols-outlined" id="chat">
+                <span class="material-symbols-outlined chat-icon" id="chat">
                     chat
                 </span>
             </a>
-        
+        </div>
 
         <div class="sub-menu-wrap" id="subMenu">
             <div class="submenu">
-                <div class="user-info">
-                    <a href="#" class="sub-menu-link">
+                <div class="user-infos">
+                    <a href="/user_retrieve_info" class="sub-menu-link">
                         <span class="material-symbols-outlined" id="account_circle">
-                        account_circle
+                            account_circle
                         </span>
-                        <p data-translate class="profile-text">Profile</p>
+                        <p class="profile-text">Profile</p>
                     </a>
                 </div>
                 
-                <p class="borrow-text" >Borrow</p>
-                <a href="#" class="sub-menu-link">
-                    <span class="material-symbols-outlined" id="account_circle">
-                    partner_exchange
+                <p class="borrow-text">Borrow</p>
+                <a href="/bookings" class="sub-menu-link">
+                    <span class="material-symbols-outlined" id="partner_exchange">
+                        partner_exchange
                     </span>
                     <p>My Borrowings</p>
                 </a>
-
                 <p class="account-text">Account</p>
                 <a href="#" class="sub-menu-link">
-                    <span class="material-symbols-outlined" id="account_circle">
-                    settings
+                    <span class="material-symbols-outlined" id="settings">
+                        settings
                     </span>
                     <p>Settings</p>
                 </a>
                 
                 <a href="#" class="sub-menu-link">
-                    <span class="material-symbols-outlined" id="account_circle">
-                    language
+                    <span class="material-symbols-outlined" id="language">
+                        language
                     </span>
                     <p>Language</p>
-                    <span id = "down-arrow">v</span>
+                    <span id="down-arrow">v</span>
                 </a>
-
-                <select id="language-select">
-                    <option value="Chinese">Chinese (Simplified)</option>
-                    <option value="Hindi">Hindi</option>
-                    <option value="Malay">Bahasa Melayu</option>
-                </select>
-                <button id="change-language">Change Language</button>
-
-                <a href="#" class="sub-menu-link">
-                    <span class="material-symbols-outlined" id="account_circle">
-                    bookmark
+                <a href="/wishlist" class="sub-menu-link">
+                    <span class="material-symbols-outlined" id="bookmark">
+                        bookmark
                     </span>
                     <p>Wishlist</p>
                 </a>
-
-                <a href="#" class="sub-menu-link">
-                    <span class="material-symbols-outlined" id="account_circle">
-                    logout
+                <a href="/" class="sub-menu-link">
+                    <span class="material-symbols-outlined" id="logout">
+                        logout
                     </span>
                     <p>Log out</p>
                 </a>       
@@ -94,11 +85,9 @@
     </nav>
 </div>
 
-
 {% block scripts %}
 <script>
     const subMenu = document.getElementById("subMenu");
-
     function toggleMenu(){
         subMenu.classList.toggle("open-menu")
     }

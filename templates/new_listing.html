@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}NeighbourlyNest - Create New Listing{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='newlisting.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="bg">
+    <div class="listing-form-container">
+        <h1 class="page-title">List an item</h1>
+        <form method="POST" action="{{ url_for('create_listing') }}" enctype="multipart/form-data">
+            <!-- Photo Upload Section -->
+            <div class="photo-upload">
+                <label for="photo" class="photo-label">
+                    <div class="photo-placeholder">
+                        <p>Select photo</p>
+                        <small>or drag photo here</small>
+                    </div>
+                </label>
+                <input type="file" name="photo" id="photo" class="photo-input form-control" accept="image/*" required />
+            </div>
+
+            <!-- Item Details -->
+            <div class="item-details">
+                <label for="title">Listing Title</label>
+                <input type="text" id="title" name="title" placeholder="Listing Title" class="form-control" required pattern=".{5,}" title="Title must be at least 5 characters">
+                
+                <label for="description">Short Description</label>
+                <textarea id="description" name="description" placeholder="Short description" class="form-control" rows="3" required minlength="10"></textarea>
+            </div>
+
+            <!-- Category Selection -->
+            <div class="category-selection">
+                <label for="category">Category</label>
+                <select id="category" name="category" class="form-control" required>
+                    <option value="">Select a category</option>
+                    <option value="food">Food</option>
+                    <option value="non-food">Non-Food</option>
+                </select>
+
+                <label for="type">Type</label>
+                <select id="type" name="type" class="form-control" required>
+                    <option value="">Borrow or Free</option>
+                    <option value="borrow">Borrow</option>
+                    <option value="free">Free</option>
+                </select>
+            </div>
+
+            <!-- Availability -->
+            <div class="availability">
+                <h2>Availability</h2>
+                <label for="availability_date" class="form-label">Date</label>
+                <input type="date" id="availability_date" name="availability_date" class="form-control" required>
+                <p id="date-error">⚠ Date must be from 5th February 2025 onwards.</p>
+
+                <label for="availability_time">Time</label>
+                <input type="time" id="availability_time" name="availability_time" class="form-control" required>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">List Now</button>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let dateInput = document.getElementById("availability_date");
+    let errorMsg = document.getElementById("date-error");
+
+    // Define the minimum allowed date (5th February 2025)
+    let minDate = new Date(2025, 1, 5); // Month index starts at 0, so February is 1
+    let minDateStr = minDate.toISOString().split("T")[0];
+
+    // Set the minimum date attribute dynamically
+    dateInput.setAttribute("min", minDateStr);
+
+    // Add event listener to validate user input
+    dateInput.addEventListener("change", function () {
+        let selectedDate = new Date(dateInput.value);
+        if (selectedDate < minDate) {
+            errorMsg.style.display = "block"; // Show error message
+            dateInput.value = ""; // Reset input field
+        } else {
+            errorMsg.style.display = "none"; // Hide error message
+        }
+    });
+});
+</script>
+{% endblock %}

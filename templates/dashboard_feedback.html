@@ -1,0 +1,88 @@
+{% extends "staffbase.html" %}
+{% block title %}NeighbourlyNest Singapore | Free items & Borrow {% endblock %}
+
+{% block content %}
+<style>
+    .userlist-table {
+        width: 80%;
+        margin: 0 auto; /* Center the table */
+        padding: 20px; /* Add padding around the table */
+    }
+
+    .retrieve_table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+    }
+
+    .table_header {
+        background-color: #34c9b0;
+        color: white;
+    }
+
+    .table_header th {
+        padding: 12px;
+        text-align: left;
+    }
+
+    .table_body td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .userlist-txt {
+        color: #34c9b0;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-align: center; /* Center the heading */
+    }
+
+    .feedback-count {
+        color: #555;
+        font-size: 1.5em;
+        text-align: center; /* Center the feedback count text */
+        margin-bottom: 20px;
+
+    }
+</style>
+
+<div style="margin-top: 100px; padding: 20px;">
+    <a href="/dashboard"><button class="btn btn-danger btn-create">Back</button></a>
+    <h3 class="userlist-txt" style="font-size:3em;">Feedback List</h3>
+    <div class="feedback-count">
+        {% if count == 0 %}
+        <p>There are no feedback.</p>
+        {% elif count == 1 %}
+        <p>There is 1 feedback.</p>
+        {% else %}
+        <p>There are {{ count }} feedbacks.</p>
+        {% endif %}
+    </div>
+    <div class="userlist-table">
+        <table border="1" class="retrieve_table">
+            <thead class="table_header">
+                <tr>
+                    <th>Name</th>
+                    <th>E-mail</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody class="table_body">
+                {% for info in feedbacklist %}
+                <tr>
+                    <td>{{ info.get_name() }}</td>
+                    <td>{{ info.get_email() }}</td>
+                    <td>{{ info.get_message() }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}

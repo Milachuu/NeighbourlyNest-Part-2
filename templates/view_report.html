@@ -1,0 +1,53 @@
+{% extends "staffbase.html" %} 
+{% block title %}Retrieve Report{% endblock %} 
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='viewreport.css') }}">
+{% endblock %}
+
+
+{% block content %} 
+<h1 class="retrieve";">Retrieve Report</h1> 
+<div> 
+  {% if count == 0 %} 
+  <p>There are no users reported.</p> 
+  {% elif count == 1 %} 
+  <p style="text-align: center; margin-top: 50px; font-weight: 600;">There is 1 user reported.</p> 
+  {% else %} 
+  <p>There are {{ count }} users reported.</p> 
+  {% endif %} 
+</div> 
+<div> 
+<table class="retrieve_table"> 
+<thead class="table_header"> 
+<tr> 
+<th>User ID</th>
+<th>Reason for reporting</th>
+<th>Others</th> 
+<th>Description</th> 
+<th></th>
+
+</tr> 
+</thead> 
+<tbody class="table_body">
+
+    {% for info in report_list %} 
+    <tr> 
+      <td>{{ info.get_email() }}</td> 
+      <td>{{ info.get_reason() }}</td>
+      <td>{{ info.get_other_reason() }}</td> 
+      <td>{{ info.get_description() }}</td>
+     
+      <td> 
+        <form action="/delete_user_info" method="POST"> 
+          <label for="email">Email: </label>
+          <input type="email" name="email" id="email" value="{{ info.get_email() }}">
+          <input type="submit" value="Delete" class="button" onclick="return confirm('Are you sure you want to delete {{ info.get_email() }}?');" > 
+        </form> 
+      </td> 
+    </tr> 
+  {% endfor %}
+</tbody> 
+</table> 
+</div> 
+{% endblock %}

@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block title %}NeighbourlyNest | User Profile {% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='user_retrieve_info.css') }}">
+{% endblock %}
+{% block content %}
+<div class="recycling"></div>
+<div class="wrapper">
+    <div class="profile">
+        <span class="material-symbols-outlined" id="account_circles">
+            account_circle
+        </span>
+        <div>
+            <h4>{{username}}</h4>
+            <p style="padding-left: 20px; color: rgba(0, 0, 0, 0.50)">Verified</p>
+        </div>
+    </div>
+    <div class="review-ctn">
+        <div class="section review-wrapper">
+            <div class="review">
+                <h4>5.0</h4>
+                <img src="../static/img/reviews.png" id="review_star">
+            </div>
+            <p>50 Reviews</p>
+        </div>
+        
+        <div class="section redeem-wrapper">
+            <div class="redeem">
+                <h4>500</h4>
+                <img src="../static/img/points.png" id="redeem_star">
+            </div>
+            <button class="redeem-btn">Redeem</button>
+        </div>
+        <div class="section edit_profile">
+            <a href="/update_user_info">Edit Profile</a>
+        </div>
+    </div>
+</div>
+
+<div class="listing-wrapper">
+    <div class="nav">
+        <p>Listings</p>
+    </div>
+    <div class="listings-container">
+        <!-- Combined Listings Section -->
+        <div class="listings-section">
+            <div class="row row-cols-1 row-cols-md-5 g-4">
+                {% for listing_id, listing in combined_listings.items() %}
+                {% if listing.get('owner') == username %}
+                <div class="col">
+                    <div class="card listing-card">
+                        <!-- User Info & Bookmark -->
+                        <div class="user-info">
+                            <i class="fas fa-user-circle"></i> {{ listing.get('owner', 'Unknown') }}
+                        </div>
+                        <img src="{{ listing.photo if listing.photo else url_for('static', filename='uploads/placeholder.png') }}" class="card-img-top listing-image">
+                        <i class="far fa-bookmark bookmark-icon"></i>
+          
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <h5 class="card-title">{{ listing.get('title', 'No Title') }}</h5>
+                            <p class="card-text">{{ listing.get('description', 'No description available.') }}</p>
+                            <!-- Dropdown Menu -->
+                            <div class="dropdown">
+                                <button class="dropdown-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Actions
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="{{ url_for('update_listing', listing_id=listing_id) }}">Update</a>
+                                    </li>
+                                    <li>
+                                        <form action="{{ url_for('delete_listing', listing_id=listing_id) }}" method="POST" onsubmit = 'return confirmDelete()'>
+                                            <script>
+                                              function confirmDelete() {
+                                              return confirm('Are you sure you want to delete this item?')
+                                              }
+                                            </script>
+                                            <button type="submit" class="dropdown-item text-danger">Delete</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+          
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Wishlist Section Below Listings -->
+{% if user_wishlist == "" %}
+    <p>No items in your wishlist.</p>
+{% else %}
+<div class="wishlist-section">
+    <h3>Your Wishlist</h3>
+    <table class="wishlist-table">
+        <thead>
+            <tr>
+                <th>User Email</th>
+                <th>Item</th>
+                <th>Description</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ user_wishlist.get_email() }}</td>
+                <td>{{ user_wishlist.get_item() }}</td>
+                <td>{{ user_wishlist.get_description() }}</td>
+                <td><a href="/update_wantlist" class="button update-btn">Update</a></td>
+                <td>
+                    <form action="/delete_wantlist" method="POST" onsubmit="return confirmDeleteWishlist()">
+                        <script>
+                            function confirmDelete() {
+                            return confirm('Are you sure you want to delete this item on your wishlist?')
+                            }
+                        </script>
+                        <input type="submit" value="Delete" class="button delete-btn" onclick="return confirm('Are you sure you want to delete this item?');">
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}

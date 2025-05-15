@@ -1,0 +1,195 @@
+/* General Styles */
+
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+    margin-top: 100px;
+    margin-bottom: 0;
+}
+
+.navigation-link {
+    border-radius: 20px;
+    margin-top: 30px;
+    margin-left: 20px;
+    height: 670px;
+    background: #FFF;
+    padding: 20px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+}
+
+.navigation-link p {
+    font-size: 15px;
+    padding-top: 10px;
+}
+
+
+.main, .feedback, .reported_user {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.main a, .feedback a, .reported_user a {
+    color: #333;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.main {
+    background: rgba(14, 168, 154, 0.20);
+    border-left: solid 4pt #0EA89A ;
+    width: 150px;
+}
+
+#icon {
+    margin-right: 10px;
+    font-size: 40px;
+}
+
+.dashboard-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    flex-direction: row;
+}
+
+.dashboard-content h1 {
+    padding-left: 25px;
+    font-size: 50px;
+}
+
+.dashboard-content p {
+    font-weight: bold;
+}
+
+.user-ct {
+    font-weight: bold;
+}
+
+.items-ctn {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.totaluser_ctn, .totalitem-ctn, .reportuser-ctn {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
+    padding: 20px;
+    text-align: center;
+    width: 30%;
+    justify-items: center;
+}
+
+
+.user-img {
+    background-color: #F27653;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.item-img {
+    background-color: #F26985;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+
+.report-img {
+    background-color: #35bb85;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.user-img span, .item-img span, .report-img span {
+    color: #fff;
+}
+
+.report_count {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 12px;
+}
+
+.userlist-txt {
+    padding-top: 80px;
+    padding-left: 30px;
+    text-align: center;
+
+}
+
+.userlist-table table {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-left: 5px;
+}
+
+.retrieve_table th, .retrieve_table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.retrieve_table th {
+    background-color: #f9f9f9;
+    font-weight: bold;
+}
+
+.retrieve_table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: white;
+}
+
+.status.Unpaid {
+    background-color: #ff6b6b;
+}
+
+.status.Paid {
+    background-color: #4caf50;
+}
+
+.status.Pending {
+    background-color: #ffc107;
+}
+
+#pull-ct {
+    font-weight: bold;
+    font-size: 19px;
+}

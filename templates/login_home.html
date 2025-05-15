@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block title %}NeighbourlyNest Singapore | Free items & Borrow {% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='favourite.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='listing.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <!-- Search Bar -->
+  <div class="search-container">
+      <form action="{{ url_for('search') }}" method="GET" class="search-form">
+          <input type="text" name="query" placeholder="Search for item" class="search-input form-control" id="searchInput">
+      </form>
+  </div>
+
+  <!-- Borrow Listings -->
+  <div id="itemsContainer">
+  <div class="listings-section">
+      <!-- Borrow Listings Section -->
+      <div class="listings-header">
+          <h2>Borrow</h2>
+          <a href="{{ url_for('report_user') }}" class="btn btn-danger btn-create" id="reportuser-btn">Report User</a>
+          <a href="{{ url_for('create_listing') }}" class="btn btn-danger btn-create" id="create-btn">Create new listing</a>
+      </div>
+      <div class="row row-cols-1 row-cols-md-5 g-4">
+          {% for listing_id, listing in borrow_listings.items() %}
+          <div class="col">
+              <div class="card listing-card" data-name="{{ listing.get('title', '').lower() }}">
+                  <!-- User Info & Bookmark -->
+                  <div class="user-info">
+                      <i class="fas fa-user-circle"></i> {{ listing.get('owner', 'Unknown') }}
+                  </div>
+                  <img src="{{ listing.photo if listing.photo else url_for('static', filename='uploads/placeholder.png') }}" class="card-img-top listing-image">
+                  <i class="far fa-bookmark bookmark-icon"></i>
+
+                  <!-- Card Body -->
+                  <div class="card-body">
+                      <h5 class="card-title">{{ listing.get('title', 'No Title') }}</h5>
+                      <p class="card-text">{{ listing.get('description', 'No description available.') }}</p>
+                      <!-- Dropdown Menu -->
+                      {%if listing.get('owner') == username %}
+                      <div class="dropdown">
+                          <button class="dropdown-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Actions
+                          </button>
+                          <ul class="dropdown-menu">
+                              <li>
+                                  <a class="dropdown-item" href="{{ url_for('update_listing', listing_id=listing_id) }}">Update</a>
+                              </li>
+                              <li>
+                                  <form action="{{ url_for('delete_listing', listing_id=listing_id) }}" method="POST" onsubmit = 'return confirmDelete()'>
+                                      <script>
+                                          function confirmDelete() {
+                                          return confirm('Are you sure you want to delete this item?')
+                                          }
+                                      </script>
+                                      <button type="submit" class="dropdown-item text-danger">Delete</button>
+                                  </form>
+                              </li>
+                          </ul>
+                      </div>
+                      {% endif %}
+
+                  </div>
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+  </div>
+
+  <!-- Free Listings -->
+  <div class="listings-section mt-4">
+      <h2>Free</h2>
+      <div class="row row-cols-1 row-cols-md-5 g-4">
+          {% for listing_id, listing in free_listings.items() %}
+          <div class="col">
+              <div class="card listing-card" data-name="{{ listing.get('title', '').lower() }}">
+                  <div class="user-info">
+                      <i class="fas fa-user-circle"></i> {{ listing.get('owner', 'Unknown') }}
+                  </div>
+                  <img src="{{ listing.photo if listing.photo else url_for('static', filename='uploads/placeholder.png') }}" class="card-img-top listing-image">
+                  <i class="far fa-bookmark bookmark-icon"></i>
+                  <div class="card-body">
+                      <h5 class="card-title">{{ listing.get('title', 'No Title') }}</h5>
+                      <p class="card-text">{{ listing.get('description', 'No description available.') }}</p>
+                      <!-- Dropdown Menu -->
+                      {%if listing.get('owner') == username %}
+                      <div class="dropdown">
+                          <button class="dropdown-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Actions
+                          </button>
+                          <ul class="dropdown-menu">
+                              <li>
+                                  <a class="dropdown-item" href="{{ url_for('update_listing', listing_id=listing_id) }}">Update</a>
+                              </li>
+                              <li>
+                                  <form action="{{ url_for('delete_listing', listing_id=listing_id) }}" method="POST" onsubmit="return confirmDelete()">
+                                      <script>
+                                          function confirmDelete() {
+                                          return confirm('Are you sure you want to delete this item?')
+                                          }
+                                      </script>
+                                      <button type="submit" class="dropdown-item text-danger">Delete</button>
+                                  </form>
+                              </li>
+                          </ul>
+                      </div>
+                      {% endif %}
+                  </div>
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("searchInput");
+        const clearButton = document.getElementById("clearButton");
+        const itemsContainer = document.getElementById("itemsContainer");
+        const items = Array.from(itemsContainer.getElementsByClassName("listing-card")); // Target `.listing-card`
+    
+        // Filter items by search input
+        searchInput.addEventListener("input", function () {
+            const query = searchInput.value.toLowerCase();
+            items.forEach(item => {
+                const name = item.dataset.name || "";
+                item.closest(".col").style.display = name.includes(query) ? "" : "none"; // Correct element targeting
+            });
+        });
+    
+        // Clear search input and reset listings
+        clearButton.addEventListener("click", function () {
+            searchInput.value = "";
+            items.forEach(item => {
+                item.closest(".col").style.display = "";
+            });
+        });
+    });
+    </script>
+    
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/5hb7A7f5V5r8bf4l5f5z7x5V5X5a5V5b5t5U5q5" crossorigin="anonymous"></script>
+
+     <!-- Bootstrap 5 JavaScript (Updated) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    
+    <!-- Popper.js (Only needed for Bootstrap 4 dropdowns, not Bootstrap 5) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMzDyy3M3FjtxX8Fr4BJz8cJ2pqX1rtS2SChmJ6C6E6BxFSLRrX4JhXjHEt" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- Custom Scripts (Optional, if you have additional JavaScript) -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}

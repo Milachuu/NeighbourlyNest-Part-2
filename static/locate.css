@@ -1,0 +1,82 @@
+.locateForm {
+    padding-top: 2%;
+    padding-bottom: 2%;
+    text-align: center;
+    background: linear-gradient(to bottom, #EBBBA7, #CFC7F8);
+    margin-top: 70px;
+}
+
+#locateBgElement {
+    width: 20%;
+}
+
+#locateTitle {
+    font-size: 200%;
+    font-weight: bold;
+}
+
+#locationSelect {
+    border-radius: 5px;
+    width: 40%;
+    padding: 10px;
+    border-color: #0EA89A;
+    border-width: 3px;
+    color: grey;
+}
+
+#locateResults {
+    margin-left: 10%;
+    margin-top: 3%;
+}
+
+.resultsButton {
+    margin-right: 2%;
+    background-color: #0EA89A;
+    color: white;
+    border: none;
+    padding: 8px;
+    width: 10%;
+    border-radius: 20px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    cursor: none;
+}
+
+#locationsContainer {
+    width: 50%;
+    margin-left: 25%;
+    padding-bottom: 5%;
+}
+
+.location-card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 2%;
+    margin: 2%;
+    background: linear-gradient(to bottom, #CFC7F8, #EBBBA7);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+.binType {
+    background-color: white;
+    padding: 5px;
+    width: 25%;
+    text-align: center;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.locationName {
+    font-weight: bold;
+}
+
+.wasteType {
+    width: 2.8%;
+    position: absolute;
+    margin-left: 40%;
+}
+
+#resultCount {
+    font-weight: bold;
+    display: none;
+}
