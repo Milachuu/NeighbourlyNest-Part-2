@@ -1,0 +1,33 @@
+{% extends "before_base.html" %}
+{% block title %}NeighbourlyNest Singapore | 2FA Verification {% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='verify_2fa.css') }}">
+{% endblock %}
+{% block content %}
+<div class="two_fa-wrapper">
+    <div class="two_fa-container">
+        <img class="logo-img" src="../static/img/logo.png" alt="NeighbourlyNest Logo">
+        <h1>Enter your code</h1>
+        <p class="otp-txt">Enter the 6-digit code from your authenticator app</p>
+        <p class="two-fa-txt">2FA Code:</p>
+        <form method="POST">
+            <input type="text" id="otpInput" name="otpInput" pattern="\d{6}" title="Please enter a 6-digit numeric code." maxlength="6" placeholder="123456" required>
+            {% if error_message %}
+            <p class="error-message">{{ error_message }}</p>
+            {% endif %}
+            <label for="button"></label>
+            <input type="submit" value="Submit" class="submit-btn">
+        </form>
+        <a href="/"><button class="back-btn">Back</button></a>
+    </div>
+    <div class="gradient-wrapper">
+        <div class="bubble"></div>
+        <div class="circles">
+            <div class="circle-main"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

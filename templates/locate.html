@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}NeighbourlyNest Singapore | Locate Bins{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='locate.css') }}">
+{% endblock %}
+
+
+{% block content %}
+    <form class="locateForm">
+        <img src="\static\img\locate bg.png" id="locateBgElement"><br/>
+        <label id="locateTitle">Where to find?</label>
+        <fieldset>
+            <select id="locationSelect" onchange="showLocations()">
+                <option value="locationSelect" selected disabled>Select a Region</option>
+                <option value="North">North</option>
+                <option value="East">East</option>
+                <option value="West">West</option>
+                <option value="Central">Central</option>
+                <option value="Northeast">Northeast</option>
+            </select>
+        </fieldset>
+    </form>
+
+    <div id="locateResults">
+        <button class="resultsButton" onclick="filterBins('E-recycling Bin')">E-recycling Bin</button>
+        <button class="resultsButton" onclick="filterBins('Recycling Bin')">Recycling Bin</button>
+    </div>
+
+    <br/>
+    <div id="locationsContainer">
+        <h4 id="resultCount"></h4>
+        {% for bin_id, bin in bins.items() %}
+            <div class="location-card {{ bin.region }} {{ bin.type|replace(' ', '_') }}">
+                <img src="\static\img\{% if bin.type == 'E-recycling Bin' %}ewaste.png{% else %}waste.png{% endif %}" class="wasteType">
+                <p class="binType">{{ bin.type }}</p>
+                <p class="locationName">{{ bin.name }}</p>
+                <p>Address: {{ bin.address }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let currentRegion = '';
+
+    function showLocations() {
+        const selectedRegion = document.getElementById('locationSelect').value;
+        const cards = document.querySelectorAll('.location-card');
+        const resultCount = document.getElementById('resultCount');
+
+        cards.forEach(card => {
+            card.style.display = 'none';
+        });
+
+        if (selectedRegion) {
+            currentRegion = selectedRegion;
+            const selectedCards = document.querySelectorAll(`.${selectedRegion}`);
+            selectedCards.forEach(card => {
+                card.style.display = 'block';
+            });
+
+            const visibleCardCount = selectedCards.length;
+            resultCount.textContent = `Showing ${visibleCardCount} results for ${selectedRegion}`;
+            resultCount.style.display = 'block';
+        } else {
+            resultCount.style.display = 'none';
+        }
+    }
+
+    function filterBins(binType) {
+        const cards = document.querySelectorAll('.location-card');
+        const resultCount = document.getElementById('resultCount');
+
+        // Convert bin type to match class format
+        let formattedBinType = binType.replace(' ', '_');
+
+        // Convert region format (replace hyphen with underscore for class consistency)
+        let formattedRegion = currentRegion.replace('-', '_');
+
+        // Hide all cards
+        cards.forEach(card => card.style.display = 'none');
+
+        // Show only bins in the selected region and type
+        if (currentRegion) {
+            const selectedCards = document.querySelectorAll(`.${formattedRegion}.${formattedBinType}`);
+            selectedCards.forEach(card => card.style.display = 'block');
+
+            const visibleCardCount = selectedCards.length;
+            resultCount.textContent = `Showing ${visibleCardCount} results for ${currentRegion} - ${binType}`;
+            resultCount.style.display = 'block';
+        }
+    }
+</script>
+{% endblock %}

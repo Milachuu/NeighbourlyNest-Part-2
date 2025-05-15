@@ -1,0 +1,50 @@
+{% extends "before_base.html" %}
+{% block title %}2FA Set-up {% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='2fa_setup.css') }}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="wrapper">
+        <h1>Authentication App</h1>
+        <p class="guide">Using an authenticator app like
+        <span class="authenticator_app">Google Authenticator, Microsoft Authenticator, Authy or iPassword,</span>
+        scan this QR code. It will generate a 6 digit code for you to enter below.
+        </p>
+        <div class="totp_qr">
+            <img src="data:image/png;base64,{{ qr_code_base64 }}" alt="TOTP QR Code">
+        </div>
+        <h3 class="auth-txt">Enter Authentication Code</h3>
+        
+        <form method="POST">
+            <input type="text" id="codeInput" name="codeInput" pattern="\d{6}" title="Please enter a 6-digit numeric code." maxlength="6" required>
+            <label for="button"></label>
+            <input type="submit" value="Setup" class="setup-btn">
+        </form>
+
+        <div class="info-txt">
+            <span class="material-symbols-outlined">
+            info
+            </span>
+            <p>If your app asks for an account name, you can use "NeighbourlyNest"</p>
+        </div>
+
+         <!-- Display flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+
+        <div class="totp_secret-ctn">
+            <p class="scan"><span class="bold-txt">Scan not working?</span> Copy this code key and enter it manually in your authentication app</p>
+            <span class="totp_secret">{{ totp_secret }}</span>
+        </div>
+    </div>
+</div>
+{% endblock %}

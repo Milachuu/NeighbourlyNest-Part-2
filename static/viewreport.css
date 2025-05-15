@@ -1,0 +1,82 @@
+/* General Page Styling */
+
+h1.retrieve {
+    text-align: center;
+    color: #0EA89A; /* Matched with the primary green from the uploaded file */
+    margin-bottom: 20px;
+    font-size: 36px;
+    font-weight: bold;
+    margin-top: 150px;
+}
+
+.retrieve_table {
+    margin-bottom: 50px;
+}
+
+
+/* Table Styling */
+table.retrieve_table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow */
+    background-color: #fff;
+    border-radius: 8px; /* Rounded corners for the table */
+    overflow: hidden; /* Ensures rounded corners work */
+}
+
+thead.table_header {
+    background-color: #0EA89A; /* Matched with the primary green from the uploaded file */
+    color: white;
+}
+
+thead.table_header th {
+    padding: 15px; /* Increased padding for better spacing */
+    text-align: left;
+    font-weight: bold;
+    font-size: 16px; /* Larger font size */
+}
+
+tbody.table_body tr:nth-child(even) {
+    background-color: #f9f9f9; /* Lighter even row color */
+}
+
+tbody.table_body td {
+    padding: 15px; /* Increased padding for better spacing */
+    border-bottom: 1px solid #ddd;
+    font-size: 14px; /* Adjusted font size */
+}
+
+tbody.table_body td:last-child {
+    text-align: center;
+}
+
+/* Button Styling */
+.button {
+    background-color: #D43F34; /* Red button color from the uploaded file */
+    color: white;
+    border: none;
+    padding: 10px 20px; /* Larger padding for buttons */
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 6px; /* Slightly rounded corners */
+    transition: background-color 0.3s ease;
+    font-weight: bold; /* Bold text for buttons */
+}
+
+.button:hover {
+    background-color: #C32E24; /* Darker red on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    table.retrieve_table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    thead.table_header th,
+    tbody.table_body td {
+        padding: 10px; /* Reduced padding for smaller screens */
+    }
+}

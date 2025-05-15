@@ -1,0 +1,129 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9; /* Light background color */
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /* Set the background image */
+    background-image: url('/static/img/good-background-iaaruoreug7ouxpv.jpg'); /* Replace with the path to your image */
+    background-size: cover; /* This will make the image cover the entire background */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    margin-top: 150px;
+}
+
+.listing-form-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+}
+
+.page-title {
+    font-size: 2rem;
+    color: #333333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Photo Upload Section */
+.photo-upload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.photo-label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 150px;
+    border: 2px dashed #cccccc;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.photo-label:hover {
+    border-color: #007bff;
+}
+
+.photo-placeholder {
+    text-align: center;
+}
+
+.photo-placeholder p {
+    font-size: 1rem;
+    color: #666666;
+    margin: 0;
+}
+
+.photo-placeholder small {
+    font-size: 0.8rem;
+    color: #999999;
+}
+
+.photo-input {
+    display: none; /* Hide the default file input */
+}
+
+/* Item Details, Category Selection, and Availability */
+.item-details,
+.category-selection,
+.availability {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+textarea.form-control {
+    resize: vertical;
+}
+
+/* Error Message */
+#date-error {
+    color: red;
+    font-size: 0.9rem;
+    display: none;
+    margin-top: 5px;
+}
+
+/* Submit Button */
+.btn-primary {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin: 0 auto;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}

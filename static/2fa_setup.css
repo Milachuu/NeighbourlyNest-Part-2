@@ -1,0 +1,95 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wrapper h1 {
+    margin-top: 140px;
+    font-size: 30px;
+}
+
+.guide {
+    margin-top: 20px;
+    width: 62%
+}
+
+.authenticator_app {
+    color: #0dac9c;
+    font-weight: 600;
+}
+
+.auth-txt {
+    font-size: 16px;
+    padding-right: 47%;
+}
+
+#codeInput {
+    width: 700px;
+    height: 50px;
+    border-radius: 5px;
+    background: #F5F7F9;
+    border: none;
+}
+
+.info-txt {
+    display: flex;
+    margin-top: 10px;
+    padding-right: 21%;
+}
+
+.info-txt p {
+    padding-left: 10px;
+    color: rgba(0,0,0,0.7);
+}
+
+.material-symbols-outlined {
+    color: rgba(0,0,0,0.7)
+}
+
+.totp_secret-ctn {
+    margin-top: 40px;
+    background: rgba(13, 172, 156, 0.3);
+    display: flex;
+    flex-direction: column;
+    height: 100px;
+    width: 62%;
+    margin-bottom: 40px;
+}
+
+.totp_secret-ctn p {
+    padding-top: 10px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.bold-txt {
+    font-weight: bold;
+}
+
+
+.setup-btn {
+    background-color: #0dac9c;
+    border: none;
+    width: 100px;
+    height: 50px;
+    border-radius: 5px;
+    color: white;
+    font-weight: 500;
+}
+
+.totp_qr {
+    padding: 20px;
+}
+
+.totp_secret {
+    color:#086f65;
+    font-weight: bold;
+    text-align: center;
+}
+
+.flash-messages {
+    color: red;
+    font-weight: 400;
+}
+

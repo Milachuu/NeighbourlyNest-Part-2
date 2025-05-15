@@ -1,0 +1,427 @@
+{% extends "base.html" %}
+{% block title %}Collection{% endblock %}
+
+{% block content %}
+<style>
+  .main-container {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    margin-top:5vh;
+    margin-bottom:5vh;
+  }
+
+  .listing-details {
+    width: 100%;
+    margin-top: 2vh;
+    margin-bottom: 1vh;
+    text-align: center;
+  }
+
+  .listing-details img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .listing-details h2 {
+    font-size: 24px;
+    margin-top: 10px;
+  }
+
+  .rules-container {
+    width: 30%;
+    margin-right: 20px;
+    padding: 30px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    height:73vh;
+  }
+
+  .rules-container h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+
+  .rules-container ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+
+  .rules-container li {
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  #calendarForm {
+    width: 60%;
+    max-width: 1200px;
+    border: 2px solid #ccc;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  #calendarForm .container {
+    display: flex;
+    justify-content: space-between;
+    height:60vh;
+    padding-top:5vh;
+  }
+
+  #calendarForm .calendar-container, #calendarForm .time-container {
+    flex: 1;
+    padding: 20px;
+  }
+
+  #calendarForm select, #calendarForm button {
+    font-size: 18px;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+  }
+
+  #calendarForm .select-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  #calendarForm .select-container select {
+    width: 48%;
+  }
+
+  #calendarForm #calendar {
+    display: inline-block;
+    margin-right: 20px;
+  }
+
+  #calendarForm .calendar-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 20px;
+  }
+
+  #calendarForm .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+  }
+
+  #calendarForm .calendar-day {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  #calendarForm .calendar-day.disabled {
+    pointer-events: none;
+    color: rgba(0, 0, 0, 0.2);
+    font-weight: normal;
+  }
+
+  #calendarForm .calendar-day.selected {
+    background-color: #6FCF97;
+    border-radius: 25px;
+    color: rgb(0, 0, 0);
+  }
+
+  #calendarForm .time-buttons {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    justify-items: center;
+    align-items: center;
+  }
+
+  #calendarForm .time-button {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: white;
+    color: #00b362;
+    border: 2px solid #00b362;
+    border-radius: 10px;
+    width: 100%;
+    transition: all 0.3s ease;
+  }
+
+  #calendarForm .time-button.selected {
+    background-color: #00b362;
+    color: white;
+  }
+
+  #calendarForm .time-button:hover {
+    background-color: #e8f5e9;
+    color: #4caf50;
+  }
+
+  #calendarForm .time-container h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .calendar-button {
+    padding: 10px 20px; /* Increase padding for larger buttons */
+    font-size: 16px;    /* Increase font size */
+    width: 50px;        /* Set a fixed width if needed */
+}
+
+  .booking-image {
+    display: block;
+    width: 100%; /* Make it responsive */
+    max-width: 600px; /* Adjust max size */
+    height: 350px; /* Fixed rectangle shape */
+    object-fit: cover; /* Ensures proper aspect ratio */
+    border-radius: 15px; /* Rounded edges */
+    margin: 20px auto; /* Centers image */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Soft shadow for professional look */
+}
+  .book-now-button {
+    background-color: #2ccf53  ;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.book-now-button:hover {
+    background-color: lightgreen;
+}
+
+#selectedDateHeader {
+  font-size: 20px;
+  text-align: center;
+  font-family: Ovo;
+  text-shadow: 0px 2px 2px rgba(126, 126, 126, 1);
+}
+
+#timezone {
+  text-align: center;
+}
+
+</style>
+  <div class="listing-details" style="margin-top: 150px;">
+    <h1>{{ listings.title }}</h1>
+  </div>
+<img src="{{ url_for('static', filename=listings.photo) }}" alt="{{ listings.title }}" class="booking-image">
+<div class="main-container">
+  <div class="rules-container" style="height: 100%;">
+    <h2 style="font-size:2em;">IMPORTANT NOTES</h2>
+    <ul>
+      <li>Borrowing Duration: The standard borrowing duration is 1 week. Please ensure the item is returned on time</li>
+      <li>Late Return Fine: A fine of $2 per day will be applied for items returned after the borrowing period</li>
+      <li>Condition of Items: All items should be returned in the same condition as when borrowed. Damages may incur additional charges</li>
+      <li>Item Inspection: Both borrowers and lenders are encouraged to inspect items together at the time of exchange to ensure transparency and condition verification</li>
+      <li>Maximum Borrowing Limit: Users can borrow up to 3 items simultaneously to ensure fair access for all.</li>
+    </ul>
+    <h2 style="font-size:2em;">Safety Guidelines</h2>
+    <ul>
+      <li>Use the in-app chat for communication to ensure secure and private exchanges.</li>
+      <li>Avoid sharing personal contact details outside the platform.</li>
+    </ul>
+  </div>
+
+  <form id="calendarForm" method="POST">
+    <div class="container" style="height: 100%;">
+      <!-- Left side: Calendar -->
+      <div class="calendar-container">
+        <div class="select-container">
+          <select id="yearSelect" name="year">
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+            <option value="2028">2028</option>
+            <option value="2029">2029</option>
+            <option value="2030">2030</option>
+          </select>
+          <select id="monthSelect" name="month">
+            <option value="January">January</option>
+            <option value="February">February</option>
+            <option value="March">March</option>
+            <option value="April">April</option>
+            <option value="May">May</option>
+            <option value="June">June</option>
+            <option value="July">July</option>
+            <option value="August">August</option>
+            <option value="September">September</option>
+            <option value="October">October</option>
+            <option value="November">November</option>
+            <option value="December">December</option>
+          </select>
+        </div>
+        <div id="calendar">
+          <div class="calendar-header">
+            <span>Sun</span>
+            <span>Mon</span>
+            <span>Tue</span>
+            <span>Wed</span>
+            <span>Thu</span>
+            <span>Fri</span>
+            <span>Sat</span>
+          </div>
+          <div id="calendarDays" class="calendar-grid"></div>
+        </div>
+      </div>
+
+      <!-- Right side: Selected Date and Time -->
+      <div class="time-container">
+        <p id="selectedDateHeader">Tuesday, January 21</p>
+        <p id = "timezone">TIME ZONE: Singapore (GMT +8.00)</p>
+        <div class="time-buttons">
+          <button type="button" class="time-button" id="time11am" name="time" value="11:00 AM">11:00 AM</button>
+          <button type="button" class="time-button" id="time12pm" name="time" value="12:00 PM">12:00 PM</button>
+          <button type="button" class="time-button" id="time1pm" name="time" value="1:00 PM">1:00 PM</button>
+          <button type="button" class="time-button" id="time2pm" name="time" value="2:00 PM">2:00 PM</button>
+          <button type="button" class="time-button" id="time3pm" name="time" value="3:00 PM">3:00 PM</button>
+          <button type="button" class="time-button" id="time4pm" name="time" value="4:00 PM">4:00 PM</button>
+          <button type="button" class="time-button" id="time5pm" name="time" value="5:00 PM">5:00 PM</button>
+          <button type="button" class="time-button" id="time6pm" name="time" value="6:00 PM">6:00 PM</button>
+          <button type="button" class="time-button" id="time7pm" name="time" value="7:00 PM">7:00 PM</button>
+          <button type="button" class="time-button" id="time8pm" name="time" value="8:00 PM">8:00 PM</button>
+          <button type="button" class="time-button" id="time9pm" name="time" value="9:00 PM">9:00 PM</button>
+          <button type="button" class="time-button" id="time10pm" name="time" value="10:00 PM">10:00 PM</button>
+        </div>
+      </div>
+    </div>
+    <input type="hidden" id="selectedDate" name="selectedDate">
+    <input type="hidden" id="selectedTime" name="selectedTime">
+      <button type="submit" class="book-now-button">Book Now</button>
+      </form>
+</div>
+
+<script>
+  const yearSelect = document.getElementById("yearSelect");
+  const monthSelect = document.getElementById("monthSelect");
+  const calendarDays = document.getElementById("calendarDays");
+  const timeButtons = document.querySelectorAll(".time-button");
+  const selectedDateInput = document.getElementById("selectedDate");
+  const selectedTimeInput = document.getElementById("selectedTime");
+  const selectedDateHeader = document.getElementById("selectedDateHeader");
+
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  const weekdays = [
+    "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+  ];
+
+  let selectedDay = null;
+  let selectedTime = null;
+
+  function updateSelectedDateHeader() {
+    const year = yearSelect.value;
+    const month = monthNames.indexOf(monthSelect.value);
+    const date = selectedDay ? selectedDay.textContent : new Date().getDate();
+    const monthName = monthNames[month];
+    const selectedDate = new Date(year, month, date);
+    const dayOfWeek = weekdays[selectedDate.getDay()];
+    selectedDateHeader.textContent = `${dayOfWeek}, ${monthName} ${date}`;
+  }
+
+  function generateCalendar(year, month) {
+    calendarDays.innerHTML = '';
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const totalDays = lastDay.getDate();
+    const firstDayOfWeek = firstDay.getDay();
+
+    for (let i = 0; i < firstDayOfWeek; i++) {
+      const emptyCell = document.createElement('div');
+      calendarDays.appendChild(emptyCell);
+    }
+
+    for (let day = 1; day <= totalDays; day++) {
+      const dayCell = document.createElement('div');
+      dayCell.textContent = day;
+      dayCell.classList.add('calendar-day');
+
+      const currentDate = new Date(year, month, day);
+      if (currentDate < new Date()) {
+        dayCell.classList.add('disabled');
+      }
+
+      dayCell.addEventListener('click', function() {
+        if (!this.classList.contains('disabled')) {
+          if (selectedDay === this) {
+            selectedDay.classList.remove('selected');
+            selectedDay = null;
+            selectedDateInput.value = '';
+          } else {
+            if (selectedDay) selectedDay.classList.remove('selected');
+            selectedDay = this;
+            selectedDay.classList.add('selected');
+            selectedDateInput.value = `${year}-${month + 1}-${this.textContent}`;
+          }
+          updateSelectedDateHeader();
+        }
+      });
+
+      calendarDays.appendChild(dayCell);
+    }
+  }
+
+  function resetTimeButtons() {
+    timeButtons.forEach(button => {
+      button.classList.remove('selected');
+      button.disabled = false;
+    });
+  }
+
+  timeButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      if (selectedTime === this) {
+        selectedTime.classList.remove('selected');
+        selectedTime = null;
+        selectedTimeInput.value = '';
+      } else {
+        if (selectedTime) {
+          selectedTime.classList.remove('selected');
+        }
+        selectedTime = this;
+        selectedTime.classList.add('selected');
+        selectedTimeInput.value = this.value;
+      }
+    });
+  });
+
+  yearSelect.addEventListener('change', function() {
+    generateCalendar(parseInt(yearSelect.value), monthNames.indexOf(monthSelect.value));
+    updateSelectedDateHeader();
+  });
+
+  monthSelect.addEventListener('change', function() {
+    const selectedMonth = monthSelect.value;
+    const monthIndex = monthNames.indexOf(selectedMonth);
+    generateCalendar(parseInt(yearSelect.value), monthIndex);
+    updateSelectedDateHeader();
+  });
+
+  const now = new Date();
+  yearSelect.value = now.getFullYear();
+  monthSelect.value = monthNames[now.getMonth()];
+  generateCalendar(now.getFullYear(), now.getMonth());
+  updateSelectedDateHeader();
+</script>
+
+{% endblock %}

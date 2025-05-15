@@ -1,0 +1,96 @@
+<!-- Home Page Navigation - After Login -->
+<div class="menu__bar">
+    <nav>
+        <a href="/login_home" class="logo-link">
+            <img src="../../static/img/logo.png" alt="NeighbourlyNest" class="logo">
+        </a>
+        <ul class="nav-links">
+            <li><a href="/borrow">Borrow</a></li>
+            <li><a href="/free">Free</a></li>
+            <li><a href="/locate">Locate Bins</a></li>
+            <li><a href="/feedback">Feedback</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+        </ul>
+
+        <div class="user-actions">
+            <div class="user-section" onclick="toggleMenu()">
+                <span class="material-symbols-outlined" id="account_circle">
+                    account_circle
+                </span>
+                
+                <span class="username">Hello, {{ username }}</span>
+                
+                <span class="material-symbols-outlined" id="arrow_drop_down">
+                    arrow_drop_down
+                </span>
+            </div>
+            
+            <span class="material-symbols-outlined notification-icon" id="notifications">
+                notifications
+            </span>
+            
+            <a href="#" id="chat-link">
+                <span class="material-symbols-outlined chat-icon" id="chat">
+                    chat
+                </span>
+            </a>
+        </div>
+
+        <div class="sub-menu-wrap" id="subMenu">
+            <div class="submenu">
+                <div class="user-infos">
+                    <a href="/user_retrieve_info" class="sub-menu-link">
+                        <span class="material-symbols-outlined" id="account_circle">
+                            account_circle
+                        </span>
+                        <p class="profile-text">Profile</p>
+                    </a>
+                </div>
+                
+                <p class="borrow-text">Borrow</p>
+                <a href="#" class="sub-menu-link">
+                    <span class="material-symbols-outlined" id="partner_exchange">
+                        partner_exchange
+                    </span>
+                    <p>My Borrowings</p>
+                </a>
+                <p class="account-text">Account</p>
+                <a href="#" class="sub-menu-link">
+                    <span class="material-symbols-outlined" id="settings">
+                        settings
+                    </span>
+                    <p>Settings</p>
+                </a>
+                
+                <a href="#" class="sub-menu-link">
+                    <span class="material-symbols-outlined" id="language">
+                        language
+                    </span>
+                    <p>Language</p>
+                    <span id="down-arrow">v</span>
+                </a>
+                <a href="/wishlist" class="sub-menu-link">
+                    <span class="material-symbols-outlined" id="bookmark">
+                        bookmark
+                    </span>
+                    <p>Wishlist</p>
+                </a>
+                <a href="/" class="sub-menu-link">
+                    <span class="material-symbols-outlined" id="logout">
+                        logout
+                    </span>
+                    <p>Log out</p>
+                </a>       
+            </div>
+        </div>
+    </nav>
+</div>
+
+{% block scripts %}
+<script>
+    const subMenu = document.getElementById("subMenu");
+    function toggleMenu(){
+        subMenu.classList.toggle("open-menu")
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Report User{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='report.css') }}">
+{% endblock %}
+
+
+
+{% block content %}
+{% from "_formHelper.html" import render_field %}
+<div class="content-container">
+    <h1 class="page-title">Report User</h1>
+    <form method="POST" action="" class="report-form">
+        <fieldset>
+            <legend>Report Form</legend>
+            <div class="form-group">
+                {{ render_field(form.report_email, class="form-control", placeholder="Email") }}
+            </div>
+            <div class="form-group">
+                {{ render_field(form.report_option, class="form-control", placeholder="Reason for Report") }}
+            </div>
+            <div class="form-group">
+                {{ render_field(form.report_other, class="form-control", placeholder="Other Reason") }}
+            </div>
+            <div class="form-group">
+                {{ render_field(form.report_description, class="form-control", placeholder="Description") }}
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="return alert('We have received your report');">Submit</button>
+        </fieldset>
+    </form>
+</div>
+{% endblock %}
