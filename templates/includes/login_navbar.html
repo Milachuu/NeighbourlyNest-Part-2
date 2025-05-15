@@ -1,0 +1,106 @@
+<!-- Home Page Navigation - After Login -->
+<div class="menu__bar">
+    <nav>
+        <a href="/login_home" class="logo-link">
+            <img src="../../static/img/logo.png" alt="NeighbourlyNest" class="logo">
+        </a>
+        <ul class="nav-links">
+            <li><a data-translate href="/borrow">Borrow</a></li>
+            <li><a data-translate href="/free">Free</a></li>
+            <li><a data-translate href="/locate">Locate Bins</a></li>
+            <li><a data-translate href="/feedback">Feedback</a></li>
+        </ul>
+        
+        <div class="user-section" onclick="toggleMenu()">
+            <span class="material-symbols-outlined" id="account_circle">
+                account_circle
+            </span>
+            
+            <span class="username">Hello, Hans</span>
+            
+            <span class="material-symbols-outlined" id="arrow_drop_down">
+                arrow_drop_down
+            </span>
+        </div>
+            
+            <span class="material-symbols-outlined" id="notifications">
+                notifications
+            </span>
+            
+            <a href="#" id="chat-link">
+                <span class="material-symbols-outlined" id="chat">
+                    chat
+                </span>
+            </a>
+        
+
+        <div class="sub-menu-wrap" id="subMenu">
+            <div class="submenu">
+                <div class="user-info">
+                    <a href="#" class="sub-menu-link">
+                        <span class="material-symbols-outlined" id="account_circle">
+                        account_circle
+                        </span>
+                        <p data-translate class="profile-text">Profile</p>
+                    </a>
+                </div>
+                
+                <p class="borrow-text" >Borrow</p>
+                <a href="#" class="sub-menu-link">
+                    <span class="material-symbols-outlined" id="account_circle">
+                    partner_exchange
+                    </span>
+                    <p>My Borrowings</p>
+                </a>
+
+                <p class="account-text">Account</p>
+                <a href="#" class="sub-menu-link">
+                    <span class="material-symbols-outlined" id="account_circle">
+                    settings
+                    </span>
+                    <p>Settings</p>
+                </a>
+                
+                <a href="#" class="sub-menu-link">
+                    <span class="material-symbols-outlined" id="account_circle">
+                    language
+                    </span>
+                    <p>Language</p>
+                    <span id = "down-arrow">v</span>
+                </a>
+
+                <select id="language-select">
+                    <option value="Chinese">Chinese (Simplified)</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="Malay">Bahasa Melayu</option>
+                </select>
+                <button id="change-language">Change Language</button>
+
+                <a href="#" class="sub-menu-link">
+                    <span class="material-symbols-outlined" id="account_circle">
+                    bookmark
+                    </span>
+                    <p>Wishlist</p>
+                </a>
+
+                <a href="#" class="sub-menu-link">
+                    <span class="material-symbols-outlined" id="account_circle">
+                    logout
+                    </span>
+                    <p>Log out</p>
+                </a>       
+            </div>
+        </div>
+    </nav>
+</div>
+
+
+{% block scripts %}
+<script>
+    const subMenu = document.getElementById("subMenu");
+
+    function toggleMenu(){
+        subMenu.classList.toggle("open-menu")
+    }
+</script>
+{% endblock %}

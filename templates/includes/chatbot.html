@@ -1,0 +1,183 @@
+{% block content %}
+    <button class="chatbot-toggler">
+        <span class="material-symbols-outlined">smart_toy</span>  
+        <span class="material-symbols-outlined">close</span>     
+    </button>
+    <div class="chatbot">
+        <header>
+            <h2>Ask NestBot</h2>
+            <span class="close-btn material-symbols-outlined">close</span>    
+        </header>
+        <ul class="chatbox">
+            <li class="chat incoming">
+                <span class="material-symbols-outlined">smart_toy</span>
+                <p>Greetings! I am NeighbourlyNest virtual assistant here to assist you on navigating the website.<br><br>How may I help you today?</p>   
+            </li>
+        </ul>
+        <div class="chat-input">
+            <textarea placeholder="Enter a message..." required></textarea>
+            <span id="send-btn" class="material-symbols-outlined">send</span>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const chatInput = document.querySelector(".chat-input textarea")
+    const sendChatBtn = document.querySelector(".chat-input span")
+    const chatbox = document.querySelector(".chatbox")
+    const chatbotToggler = document.querySelector(".chatbot-toggler")
+    const chatbotCloseBtn = document.querySelector(".close-btn")
+
+    let userMessage;
+    const API_KEY = " "
+    const inputInitHeight = chatInput.scrollHeight;
+
+    const createChatLi = (message, className) => {
+        // Create a chat <li> element with passed message and className
+        const chatLi = document.createElement("li");
+        chatLi.classList.add("chat", className);
+        let chatContent = className === "outgoing" ? `<p></p>` : `<span class="material-symbols-outlined">smart_toy</span><p></p>`;
+        chatLi.innerHTML = chatContent;
+        // Prevent HTML from passing in    
+        chatLi.querySelector("p").textContent = message
+        return chatLi;
+    }   
+    
+    const generateResponse = (incomingChatLi) => {
+        const API_URL = "https://api.openai.com/v1/chat/completions"
+        const messageElement = incomingChatLi.querySelector("p");
+
+        // Define the properties and message for the API request
+        const requestOptions = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${API_KEY}`
+            },
+            body: JSON.stringify({
+                model: "gpt-4o-mini",
+                messages: [{role: "user", content: userMessage}]
+            })
+        }
+
+        // Send POST request to API, get response
+        fetch(API_URL, requestOptions).then(res => res.json()).then(data => {
+            messageElement.textContent = data.choices[0].message.content;
+        }).catch((error) => {
+            messageElement.classList.add("error");
+            messageElement.textContent = "Oops! Something went wrong. Please try again.";
+        }).finally(() => chatbox.scrollTo(0, chatbox.scrollHeight))
+    }
+
+    const handleChat = () => {
+        userMessage = chatInput.value.trim();
+        if(!userMessage) return;
+        chatInput.value = "";
+        chatInput.style.height = `$(inputInitHeight)px`;
+        
+
+        // Append the user's message to the chatbox
+        chatbox.appendChild(createChatLi(userMessage, "outgoing"));
+        chatbox.scrollTo(0, chatbox.scrollHeight);
+
+        setTimeout(() => {
+            // Display "Thinking..." message while waiting for response
+            const incomingChatLi = createChatLi("Thinking...", "incoming")
+            chatbox.appendChild(incomingChatLi);
+            generateResponse(incomingChatLi);
+            chatbox.scrollTo(0, chatbox.scrollHeight);
+            generateResponse(incomingChatLi);
+        }, 600)
+    }
+
+    chatInput.addEventListener("input", () => {
+        // Adjust the height of the input textarea based on its content
+        chatInput.style.height = `${inputInitHeight}px`;
+        chatInput.style.height = `${chatInput.scrollHeight}px`;
+    })
+
+    chatInput.addEventListener("keydown", (e) => {
+      // If Enter key is pressed without Shift key and the window
+      // width is greater than 800 px, handle the chat
+      if(e.key === "Enter" && !e.shiftKey && window.innerWidth > 800) {
+        e.preventDefault();
+        handleChat();
+      }
+});
+
+    sendChatBtn.addEventListener("click", handleChat);
+    chatbotCloseBtn.addEventListener("click", () => document.body.classList.remove("close-chatbot"));
+    chatbotToggler.addEventListener("click", () => document.body.classList.toggle("show-chatbot"));
+</script>
+
+<script>
+    const API_URL = "https://api.openai.com/v1/chat/completions";  
+
+    async function translateText(text, targetLanguage) {
+        try {
+            const response = await fetch(API_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: "gpt-4o-mini",
+                    messages: [
+                        { role: "system", content: "You are a translation assistant. Translate text into " + targetLanguage + "." },
+                        { role: "user", content: text }
+                    ]
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            return result.choices[0].message.content.trim(); // Extract translated text
+        } catch (error) {
+            console.error("Translation error:", error);
+            return text; // Fallback to original text on failure
+        }
+    }
+
+    async function translatePage(languageCode) {
+        const elementsToTranslate = document.querySelectorAll("[data-translate]");
+
+        for (const element of elementsToTranslate) {
+            const originalText = element.innerText.trim();
+            const translatedText = await translateText(originalText, languageCode);
+            element.innerText = translatedText;
+        }
+    }
+
+    document.getElementById("change-language").addEventListener("click", function () {
+        const selectedLanguage = document.getElementById("language-select").value;
+        const languageMap = { "Chinese": "Chinese (Simplified)", "Hindi": "Hindi", "Malay": "Malay" };  
+        const languageCode = languageMap[selectedLanguage];
+
+        if (languageCode) {
+            translatePage(languageCode);
+        } else {
+            console.error("Invalid language selected.");
+        }
+    });
+
+    async function translatePage(languageCode) {
+    const elementsToTranslate = document.querySelectorAll("[data-translate]");
+
+    for (const element of elementsToTranslate) {
+        const originalText = element.innerText.trim();  // Get the original text
+        const translatedText = await translateText(originalText, languageCode);
+        
+        if (translatedText) {
+            element.innerText = translatedText; // Ensure it fully replaces
+        }
+    }
+}
+</script>
+
+{% endblock %}
